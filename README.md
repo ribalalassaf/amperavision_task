@@ -17,7 +17,6 @@ Utilizes the [Bloc] pattern for scalable and predictable state handling.
 
 ## 📁 Folder Structure
 
-```text
 lib/
 ├── config/               # App configuration: routing, dependency injection
 ├── features/             # Feature-based structure (booking, locations, etc.)
@@ -25,8 +24,7 @@ lib/
 ├── utils/                # Shared utility classes & extensions
 │   ├── extensions.dart
 │   ├── data_state.dart           # Unifies data communication between blocs and repos
-│   └── base_api_repository.dart  # Base interface for API calls```
-
+│   └── base_api_repository.dart  # Base interface for API calls
 
 ---
 
