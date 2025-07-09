@@ -1,16 +1,42 @@
-# ampera_vision_test
+# 🏋️ AmperaVision – On-Site Task
 
-A new Flutter project.
+functionality**.
 
-## Getting Started
+---
 
-This project is a starting point for a Flutter application.
 
-A few resources to get you started if this is your first Flutter project:
+## 🧱 Architecture
 
-- [Lab: Write your first Flutter app](https://docs.flutter.dev/get-started/codelab)
-- [Cookbook: Useful Flutter samples](https://docs.flutter.dev/cookbook)
+The app follows **Clean Architecture** principles:
 
-For help getting started with Flutter development, view the
-[online documentation](https://docs.flutter.dev/), which offers tutorials,
-samples, guidance on mobile development, and a full API reference.
+### 🗂️ State Management
+
+Utilizes the [Bloc] pattern for scalable and predictable state handling.
+
+---
+
+## 📁 Folder Structure
+
+lib/
+├── config/ # App-wide configuration
+│ ├── router/ # Routing and navigation
+│ └── injectable.dart # Dependency injection setup
+├── utils/ # Common utilities
+│ ├── extensions.dart
+│ ├── data_state.dart # Unified communication objects between the repositories and blocs
+│ └── base_api_repository.dart # Unified communication method between repositories and datasources
+├── features/ # Feature-based modules
+│ ├── booking/ # Booking-related screens, BLoCs, models
+│ └── locations/ # Locations info-related logic and UI
+├── styles/ # Colors, fonts, and shared widgets
+
+
+## Running the Project
+
+Follow these steps to set up and run the app locally:
+
+```bash
+flutter pub get
+flutter pub run build_runner clean
+flutter pub run build_runner build --delete-conflicting-outputs
+flutter run
