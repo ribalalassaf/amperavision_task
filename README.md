@@ -17,15 +17,17 @@ Utilizes the [Bloc] pattern for scalable and predictable state handling.
 
 ## 📁 Folder Structure
 
+```text
+
 lib/
 ├── config/               # App configuration: routing, dependency injection
 ├── features/             # Feature-based structure (booking, locations, etc.)
 ├── styles/               # App styling (colors, fonts, general widgets)
 ├── utils/                # Shared utility classes & extensions
 │   ├── extensions.dart
-│   ├── data_state.dart           # Unifies data communication between blocs and repos
-│   └── base_api_repository.dart  # Base interface for API calls
-
+│   ├── data_state.dart           # Unified communication objects between repositories and blocs(cubits)
+│   └── base_api_repository.dart  # Unified communication method between datasources and repositories
+```
 ---
 
 ## Running the Project
