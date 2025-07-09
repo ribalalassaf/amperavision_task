@@ -1,3 +1,4 @@
+import 'package:ampera_vision_test/styles/platform_specific_widgets/platform_loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:intl/intl.dart';
@@ -9,24 +10,56 @@ import 'package:ampera_vision_test/styles/colors.dart';
 import 'package:ampera_vision_test/styles/fonts.dart';
 import 'package:ampera_vision_test/styles/general_widgets/general_widgets.dart';
 
-class RoomTab extends StatelessWidget {
+class RoomTab extends StatefulWidget {
   final RoomModel roomModel;
-  const RoomTab({super.key, required this.roomModel});
+  final DateTime chosenDate;
+  const RoomTab({super.key, required this.roomModel, required this.chosenDate});
+
+  @override
+  State<RoomTab> createState() => _RoomTabState();
+}
+
+class _RoomTabState extends State<RoomTab> {
+  late final BookingCubit cubit;
+  late ScrollController scrollController;
+  @override
+  void initState() {
+    scrollController = ScrollController();
+    cubit = getIt<BookingCubit>()..getRoomSlots(widget.roomModel.id!, widget.chosenDate);
+    super.initState();
+  }
+
+  @override
+  void didUpdateWidget(covariant RoomTab oldWidget) {
+    if (oldWidget.chosenDate != widget.chosenDate) {
+      scrollController.animateTo(0, duration: Duration(milliseconds: 500), curve: Curves.linear);
+      cubit.getRoomSlots(widget.roomModel.id!, widget.chosenDate);
+    }
+    super.didUpdateWidget(oldWidget);
+  }
+
+  @override
+  void dispose() {
+    scrollController.dispose();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
     return BlocProvider(
-      create: (context) => getIt<BookingCubit>()..getRoomSlots(roomModel.id!, DateTime.now()),
+      create: (context) => cubit,
       child: BlocBuilder<BookingCubit, BookingState>(
         builder: (context, state) {
           return state.maybeWhen(
             orElse: () => SizedBox(),
+            inProgress: () => PlatformLoadingIndicator(),
             success: (slots) {
               return Container(
                 padding: EdgeInsets.symmetric(horizontal: 17),
                 child: BlankSpaceSepratedListViewBuilder(
                   itemCount: slots.length,
                   isScrollable: true,
+                  scrollController: scrollController,
                   itemBuilder: (context, index) {
                     return SlotWidget(slotViewModel: slots.elementAt(index));
                   },

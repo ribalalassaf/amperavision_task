@@ -17,6 +17,21 @@ extension DateTimeExtension on DateTime {
       add(const Duration(days: 4)),
     ];
   }
+
+  // ignore: non_constant_identifier_names
+  String EEEDMMMOrName() {
+    if (year == DateTime.now().year && month == DateTime.now().month && day == DateTime.now().day) {
+      return "today";
+    }
+    if (year == DateTime.now().year && month == DateTime.now().month && day == DateTime.now().day - 1) {
+      return "yesterday";
+    }
+    if (year == DateTime.now().year && month == DateTime.now().month && day == DateTime.now().day + 1) {
+      return "tomorrow";
+    }
+
+    return DateFormat("dd.MM.yyyy").format(this);
+  }
 }
 
 extension ListsExtension<T> on Iterable<T>? {

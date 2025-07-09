@@ -18,22 +18,22 @@ class BookingCubit extends Cubit<BookingState> {
     final dataState = await _bookingRepo.getRoomBooking(roomId);
     if (dataState.isSuccess()) {
       final roomBookings = dataState.data!;
-
       final DateTime start = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, 6, 0);
       final DateTime end = DateTime(selectedDate.year, selectedDate.month, selectedDate.day, 22, 0);
-
       final List<DateTime> timeSlots = [];
       DateTime current = start;
       while (current.isBefore(end)) {
         timeSlots.add(current);
         current = current.add(Duration(minutes: 15));
       }
-
       final List<SlotViewModel> slots = [];
-
       for (int i = 0; i < timeSlots.length; i++) {
         for (BookingModel booking in roomBookings) {
-          if (timeSlots[i].minute == booking.start!.minute && timeSlots[i].hour == booking.start!.hour) {
+          if (timeSlots[i].minute == booking.start!.minute &&
+              timeSlots[i].hour == booking.start!.hour &&
+              timeSlots[i].day == booking.start!.day &&
+              timeSlots[i].month == booking.start!.month &&
+              timeSlots[i].year == booking.start!.year) {
             slots.add(
               SlotViewModel(
                 start: booking.start!,
